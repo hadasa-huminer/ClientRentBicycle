@@ -15,21 +15,50 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PersonalInfo from './PersonalInfo';
 import CreditCard from './CreditCard';
 import Home from './Home';
-
+import Http from './axios';
+import { useState } from 'react';
+import { personalInfo } from './object'
 
 const steps = ['Personal Information', 'Payment details'];
 
-function getStepContent(step) {
-  if(step == 2){
-    
+function GetStepContent(step) {
+
+  const [clientData, setClientData] = useState(personalInfo)
+
+  const GlobalState = (state) => {
+    setClientData({ ...state, clientData })
+    console.log(clientData);
+  }
+
+  if (step == 2) {
+    const pass = clientData.password;
+    const mail = clientData.email
+    Http.get('/', {
+      params: {
+        pass,
+        mail
+      }
+    }).then(res => {      
+      // swal({
+      //   title: "You are already registered in the system",
+      //   showCancelButton: true,
+      //   confirmButtonColor: "#1c8fec",
+      //   cancelButtonColor: "#fa013b",
+      //   buttons: {
+      //     Confirm: { text: "Okay", className: "okayButton" },
+      //   },
+      // });  
+    }).catch((err) => {
+      //TODO:post(redux)
+    })
   }
   switch (step) {
     case 0:
-      return <PersonalInfo />;
+      return <PersonalInfo cb={GlobalState} />;
     case 1:
-      return <CreditCard />;
+      return <CreditCard cb={GlobalState} />;
     case 2:
-      return <Home />;
+      return <Home cb={GlobalState} />;
     default:
       throw new Error('Unknown step');
   }
@@ -41,6 +70,7 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
+    //להוסיף בדיקה האם הנתונים של הינפוט נכונים
     setActiveStep(activeStep + 1);
   };
 
@@ -62,14 +92,14 @@ export default function Checkout() {
       >
         <Toolbar>
           <Typography variant="h6" color="inherit" noWrap>
-            Company name
+            need to put logo
           </Typography>
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
         <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
           <Typography component="h1" variant="h4" align="center">
-            Checkout
+            Register
           </Typography>
           <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
             {steps.map((label) => (
@@ -90,7 +120,7 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
+                {GetStepContent(activeStep)}
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
