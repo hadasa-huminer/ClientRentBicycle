@@ -13,17 +13,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import Router from './Router';
 import { useNavigate } from "react-router-dom"
-import { connect } from 'react-redux'
 import { actionsStore } from './redux/actions/actions'
 import Http from './axios';
 
 const theme = createTheme();
 
-const mapDispatchToProps = (dispatch) => ({
-    setUser: (token) => dispatch(actionsStore.setUser(token))
-})
+
 // mapStateToProps
-export default connect(null, mapDispatchToProps)(function SignIn(props) {
+export default function SignIn(props) {
     const navigate = useNavigate();
     const { setUser } = props;
     const handleSubmit = (event) => {
@@ -113,4 +110,4 @@ export default connect(null, mapDispatchToProps)(function SignIn(props) {
             </Container>
         </ThemeProvider>
     );
-})
+}

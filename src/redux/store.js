@@ -1,6 +1,5 @@
-import { createStore } from 'react-redux'
-import user from './reducers/user'
-const userReducer = user;
+import { createStore } from 'redux'
+import {userReducer} from './reducers/userReducer'
+
 const store = createStore(userReducer);
-window.store = store;
 export default store;

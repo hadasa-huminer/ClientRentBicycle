@@ -9,7 +9,9 @@ function App() {
   return (
 
     //<header/>
-    <HomeRouter></HomeRouter>
+    <HomeRouter>
+
+    </HomeRouter>
 
   );
 

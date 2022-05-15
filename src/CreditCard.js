@@ -4,16 +4,10 @@ import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { connect } from 'react-redux';
 import { Button } from '@mui/material';
 import {useState} from 'react';
 
-function mapStateToProps(state) {
-  return {
-    user: state.user
-  }
-}
-export default connect(mapStateToProps, null)( function PaymentForm(props) {
+export default function PaymentForm(props) {
   const submitPersonalInfo=(sub)=>{
     sub.preventDefault();
     props.cb(CreditCard)
@@ -76,4 +70,4 @@ export default connect(mapStateToProps, null)( function PaymentForm(props) {
       </Grid>
     </React.Fragment>
   );
-});
+}

@@ -5,22 +5,23 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { actionsStore } from './redux/actions/actions';
-import { connect } from 'react-redux';
-import {useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { Button } from '@mui/material';
 import { CssBaseline } from '@mui/material';
-function mapStateToProps(state) {
-  return {
-    user: state.user
+
+function PersonalInfo(props) {
+
+  const [PersonalInfo, setPersonalInfo] = useState({ email: '', date: '', password: '' })
+  const user = useSelector(state => state.user)
+  const dispatch = useDispatch();
+
+  const submitPersonalInfo = (sub) => {
+    sub.preventDefault();
+    dispatch(setUser({address:'yyy',name:'ruti'}))
+    props.cb(PersonalInfo);
   }
-}
-export default connect(mapStateToProps, null)(function PersonalInfo(props) {
- const submitPersonalInfo=(sub)=>{
-   sub.preventDefault();
-   props.cb(PersonalInfo)
- }
-  const [PersonalInfo,setPersonalInfo] = useState({email:'',date:'',password:''})
-  const { setUser, user } = props;
+
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -36,7 +37,7 @@ export default connect(mapStateToProps, null)(function PersonalInfo(props) {
             autoComplete="given-name"
             variant="standard"
             defaultValue={user.email}
-            onChange = {(val)=>{setPersonalInfo({...PersonalInfo,email:val.target.value})}}
+            onChange={(val) => { setPersonalInfo({ ...PersonalInfo, email: val.target.value }) }}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -47,7 +48,7 @@ export default connect(mapStateToProps, null)(function PersonalInfo(props) {
             fullWidth
             autoComplete="family-name"
             variant="standard"
-            onChange = {(val)=>{setPersonalInfo({...PersonalInfo,date:val.target.value})}}
+            onChange={(val) => { setPersonalInfo({ ...PersonalInfo, date: val.target.value }) }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -60,7 +61,7 @@ export default connect(mapStateToProps, null)(function PersonalInfo(props) {
             variant="standard"
             inputProps={{ pattern: "[a-z]{1,15}" }}
             defaultValue={user.password}
-            onChange = {(val)=>{setPersonalInfo({...PersonalInfo,password:val.target.value})}}
+            onChange={(val) => { setPersonalInfo({ ...PersonalInfo, password: val.target.value }) }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -71,9 +72,9 @@ export default connect(mapStateToProps, null)(function PersonalInfo(props) {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
-          />         
+          />
         </Grid>
-        <Button  sx={{ mt: 3, ml: 1 }}  variant="contained" onClick={submitPersonalInfo}>save details</Button>
+        <Button sx={{ mt: 3, ml: 1 }} variant="contained" onClick={submitPersonalInfo}>save details</Button>
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
@@ -83,4 +84,5 @@ export default connect(mapStateToProps, null)(function PersonalInfo(props) {
       </Grid>
     </React.Fragment>
   );
-})
+}
+export default PersonalInfo;
