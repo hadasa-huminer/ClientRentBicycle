@@ -4,24 +4,28 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { actionsStore } from './redux/actions/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import { CssBaseline } from '@mui/material';
-
+import { setUser } from './redux/reducers/action'
+// import ParentComponent from './parentComponent';
+import SignSchema from './Validation';
+import { useNavigate } from "react-router-dom";
+import { useFormik } from 'formik';
 function PersonalInfo(props) {
-
-  const [PersonalInfo, setPersonalInfo] = useState({ email: '', date: '', password: '' })
   const user = useSelector(state => state.user)
   const dispatch = useDispatch();
-
-  const submitPersonalInfo = (sub) => {
-    sub.preventDefault();
-    dispatch(setUser({address:'yyy',name:'ruti'}))
-    props.cb(PersonalInfo);
-  }
-
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      email: '',
+    },
+    validationSchema: SignSchema,
+    onSubmit: values => {
+      dispatch(setUser({ password: values.password, eamil: values.email, dateOfBirth: values.dob }))
+    },
+  });
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -37,9 +41,16 @@ function PersonalInfo(props) {
             autoComplete="given-name"
             variant="standard"
             defaultValue={user.email}
-            onChange={(val) => { setPersonalInfo({ ...PersonalInfo, email: val.target.value }) }}
+            onChange={formik.handleChange}
+            value={formik.values.eamil}
+            error={Boolean(formik.touched.email && formik.errors.email)}
+            helperText={formik.touched.email && formik.errors.email}
           />
         </Grid>
+        {/* <ParentComponent>
+          <p>adfhfvh</p>
+          <button>juity</button>  
+        </ParentComponent> */}
         <Grid item xs={12} sm={6}>
           <TextField
             required
@@ -48,7 +59,11 @@ function PersonalInfo(props) {
             fullWidth
             autoComplete="family-name"
             variant="standard"
-            onChange={(val) => { setPersonalInfo({ ...PersonalInfo, date: val.target.value }) }}
+            format={"DD-MM-YYYY"}
+            onChange={formik.handleChange}
+            value={formik.values.dob}
+            error={Boolean(formik.touched.dob && formik.errors.dob)}
+            helperText={formik.touched.dob && formik.errors.dob}
           />
         </Grid>
         <Grid item xs={12}>
@@ -61,7 +76,10 @@ function PersonalInfo(props) {
             variant="standard"
             inputProps={{ pattern: "[a-z]{1,15}" }}
             defaultValue={user.password}
-            onChange={(val) => { setPersonalInfo({ ...PersonalInfo, password: val.target.value }) }}
+            onChange={formik.handleChange}
+            value={formik.values.Password}
+            error={Boolean(formik.touched.password && formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
         </Grid>
         <Grid item xs={12}>
@@ -72,15 +90,13 @@ function PersonalInfo(props) {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
+            onChange={formik.handleChange}
+            value={formik.values.Confirm}
+            error={Boolean(formik.touched.password && formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
           />
         </Grid>
-        <Button sx={{ mt: 3, ml: 1 }} variant="contained" onClick={submitPersonalInfo}>save details</Button>
-        <Grid item xs={12}>
-          <FormControlLabel
-            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
-          />
-        </Grid>
+        <Button sx={{ mt: 3, ml: 1 }} variant="contained" onClick={formik.handleSubmit}>save details</Button>
       </Grid>
     </React.Fragment>
   );

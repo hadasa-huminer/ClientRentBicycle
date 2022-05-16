@@ -21,7 +21,7 @@ import { personalInfo } from './object'
 
 const steps = ['Personal Information', 'Payment details'];
 
-function GetStepContent(step) {
+function GetStepContent({step}) {
 
   const [clientData, setClientData] = useState(personalInfo)
 
@@ -60,7 +60,8 @@ function GetStepContent(step) {
     case 2:
       return <Home cb={GlobalState} />;
     default:
-      throw new Error('Unknown step');
+      <p>Unknown step</p>
+     // throw new Error('Unknown step');
   }
 }
 
@@ -70,7 +71,6 @@ export default function Checkout() {
   const [activeStep, setActiveStep] = React.useState(0);
 
   const handleNext = () => {
-    //להוסיף בדיקה האם הנתונים של הינפוט נכונים
     setActiveStep(activeStep + 1);
   };
 
@@ -120,7 +120,7 @@ export default function Checkout() {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {GetStepContent(activeStep)}
+                <GetStepContent step={activeStep}/>
                 <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                   {activeStep !== 0 && (
                     <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>

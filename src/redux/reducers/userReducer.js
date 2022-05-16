@@ -4,8 +4,8 @@ const initnalState = {
     user: {}
 }
 export const userReducer = (state = initnalState, action) => {
-    if (!action) {
-        return state;
+    if (typeof state === undefined) {
+        return initnalState;
     }
     switch(action.type){
         case(actionTypes.SET_USER):

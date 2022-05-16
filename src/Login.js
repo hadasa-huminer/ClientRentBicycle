@@ -13,38 +13,41 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Link } from "react-router-dom";
 import Router from './Router';
 import { useNavigate } from "react-router-dom"
-import { actionsStore } from './redux/actions/actions'
 import Http from './axios';
-
+import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import {setUser} from './redux/reducers/action';
+import SignSchema from './Validation';
 const theme = createTheme();
 
 
-// mapStateToProps
-export default function SignIn(props) {
+const Login = () => {
     const navigate = useNavigate();
-    const { setUser } = props;
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        const user = {
-            eamil: data.get('eamil'),
-            password: data.get('password')
-        }
-        Http.get('/', {
-            params: {
-                password: user.password,
-                eamil: user.eamil
-            }
-        }).then(res => {
-            if (res === "משתמש לא קיים") {
-                setUser(user)
-                navigate("DesignRegister")
-            }
-            else
-                navigate("Home")
-        }).catch((err) => { //TODO:ERR
-        })
-    };
+    const dispatch = useDispatch();
+    const formik = useFormik({
+        initialValues: {
+            password: '',
+            email: '',
+        },
+        validationSchema: SignSchema,
+        onSubmit: values => {    
+            dispatch(setUser({ password: values.password, eamil: values.email }))
+            Http.get('/', {
+                params: {
+                    password: values.password,
+                    eamil: values.email
+                }
+            }).then(res => {
+                if (res === "משתמש לא קיים") {
+                    navigate("DesignRegister")
+                }
+                else
+                    navigate("Home")
+            }).catch((err) => {
+                ;
+            })
+        },
+    });
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
@@ -64,16 +67,20 @@ export default function SignIn(props) {
                     <Typography component="h1" variant="h5">
                         Sign in
                     </Typography>
-                    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component="form" onSubmit={formik.handleSubmit} noValidate sx={{ mt: 1 }}>
                         <TextField
                             margin="normal"
                             required
                             fullWidth
-                            id="eamil"
-                            label="Eamil-Address"
-                            name="password"
-                            autoComplete="eamil"
+                            id="email"
+                            label="Email-Address"
+                            name="email"
+                            autoComplete="email"
                             autoFocus
+                            onChange={formik.handleChange}
+                            value={formik.values.eamil}
+                            error={Boolean(formik.touched.email && formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
                         />
                         <TextField
                             margin="normal"
@@ -84,6 +91,10 @@ export default function SignIn(props) {
                             type="password"
                             id="password"
                             autoComplete="current-password"
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
+                            error = {Boolean(formik.touched.password && formik.errors.password)}
+                            helperText = {formik.touched.password && formik.errors.password}
                         />
 
                         <Button
@@ -111,3 +122,4 @@ export default function SignIn(props) {
         </ThemeProvider>
     );
 }
+export default Login;
