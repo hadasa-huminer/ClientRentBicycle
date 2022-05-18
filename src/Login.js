@@ -30,7 +30,8 @@ const Login = () => {
             email: '',
         },
         validationSchema: SignSchema,
-        onSubmit: values => {    
+        onSubmit: values => {  
+            console.log("enter")  
             dispatch(setUser({ password: values.password, eamil: values.email }))
             Http.get('/', {
                 params: {
@@ -39,10 +40,15 @@ const Login = () => {
                 }
             }).then(res => {
                 if (res === "משתמש לא קיים") {
-                    navigate("DesignRegister")
+                    console.log(res)
+                    navigate("/DesignRegister")
                 }
                 else
-                    navigate("Home")
+                {
+                    console.log("ok",res)
+                     navigate("/HomePage")
+                }
+                   
             }).catch((err) => {
                 ;
             })
@@ -108,12 +114,12 @@ const Login = () => {
                         <Grid container>
                             <Grid item xs>
                                 {/* TODO: something */}
-                                <Link to="DesignRegister" variant="body2">
+                                <Link to="/DesignRegister" variant="body2">
                                     Forgot password?
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link to="DesignRegister">Don't have an account? Sign Up</Link>
+                                <Link to="/DesignRegister">Don't have an account? Sign Up</Link>
                             </Grid>
                         </Grid>
                     </Box>

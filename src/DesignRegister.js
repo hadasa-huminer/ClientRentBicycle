@@ -14,7 +14,7 @@ import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import PersonalInfo from './PersonalInfo';
 import CreditCard from './CreditCard';
-import Home from './Home';
+import Home from './HomePage';
 import Http from './axios';
 import { useState } from 'react';
 import { personalInfo } from './object'
