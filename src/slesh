@@ -1,0 +1,14 @@
+//designRegister
+
+//axios-בתשובה הטובה
+        // swal({
+        //   title: "You are already registered in the system",
+        //   showCancelButton: true,
+        //   confirmButtonColor: "#1c8fec",
+        //   cancelButtonColor: "#fa013b",
+        //   buttons: {
+        //     Confirm: { text: "Okay", className: "okayButton" },
+        //   },
+        // });
+        //בתוך הסוויצ
+            // cb={GlobalState
