@@ -18,6 +18,8 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/action/userAction";
 import LoginSchema from "../../validation/LoginSchema";
+import axios from 'axios'
+
 const theme = createTheme();
 
 const Login = () => {
@@ -32,10 +34,10 @@ const Login = () => {
     onSubmit: (values) => {
       console.log("enter");
       dispatch(setUser({ password: values.password, eamil: values.email }));
-      Http.get("/", {
+      Http.get("/client", {
         params: {
-          password: values.password,
           eamil: values.email,
+          password: values.password,
         },
       })
         .then((res) => {
