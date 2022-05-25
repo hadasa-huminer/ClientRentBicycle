@@ -33,15 +33,15 @@ const Login = () => {
     validationSchema: LoginSchema,
     onSubmit: (values) => {
       console.log("enter");
-      dispatch(setUser({ password: values.password, eamil: values.email }));
+      dispatch(setUser({ password: values.password, email: values.email }));
       Http.get("/client", {
         params: {
-          eamil: values.email,
+          email: values.email,
           password: values.password,
         },
       })
         .then((res) => {
-          if (res === "משתמש לא קיים") {
+          if (res.data === "משתמש לא קיים") {
             console.log(res);
             navigate("/DesignRegister");
           } else {
@@ -87,7 +87,7 @@ const Login = () => {
               autoComplete="email"
               autoFocus
               onChange={formik.handleChange}
-              value={formik.values.eamil}
+              value={formik.values.email}
               error={Boolean(formik.touched.email && formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
             />

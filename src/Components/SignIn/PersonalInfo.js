@@ -30,7 +30,7 @@ function PersonalInfo(props) {
       dispatch(
         setUser({
           password: values.password,
-          eamil: values.email,
+          email: values.email,
           dateOfBirth: values.dob,
         })
       );
@@ -89,20 +89,6 @@ function PersonalInfo(props) {
             defaultValue={user.password}
             onChange={formik.handleChange}
             value={formik.values.Password}
-            error={Boolean(formik.touched.password && formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            required
-            name="Confirm"
-            label="Confirm Password"
-            fullWidth
-            autoComplete="shipping address-line2"
-            variant="standard"
-            onChange={formik.handleChange}
-            value={formik.values.Confirm}
             error={Boolean(formik.touched.password && formik.errors.password)}
             helperText={formik.touched.password && formik.errors.password}
           />

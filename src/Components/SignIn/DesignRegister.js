@@ -22,25 +22,12 @@ import { useNavigate } from "react-router-dom";
 
 const steps = ["Personal Information", "Payment details"];
 function GetStepContent({ step }) {
-  const navigate=useNavigate();
-  const user = useSelector((state) => state.user);
 
   // const GlobalState = (state) => {
   //   setClientData({ ...state, clientData });
   //   console.log(clientData);
+ 
 
-  if (step == 2) {
-    // const pass = clientData.password;
-    // const mail = clientData.email;
-    Http.post("/", user)
-      .then((res) => {
-        console.log(res);
-        navigate("/HomePage");
-
-      })
-      .catch((err) => {console.log(err)
-      });
-  }
   switch (step) {
     case 0:
       return <PersonalInfo />;
@@ -56,8 +43,22 @@ function GetStepContent({ step }) {
 const theme = createTheme();
 
 export default function Checkout() {
-  const [activeStep, setActiveStep] = React.useState(0);
 
+  const [activeStep, setActiveStep] = React.useState(0);
+  const navigate=useNavigate();
+  const user = useSelector((state) => state.user);
+  if (activeStep === steps.length) {
+    // const pass = clientData.password;
+    // const mail = clientData.email;
+    Http.post("/client/register", user)
+      .then((res) => {
+        console.log(res);
+        navigate("/HomePage");
+
+      })
+      .catch((err) => {console.log(err)
+      });
+    }
   const handleNext = () => {
     setActiveStep(activeStep + 1);
   };
