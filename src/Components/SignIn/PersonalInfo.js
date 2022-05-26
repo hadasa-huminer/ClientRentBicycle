@@ -22,8 +22,8 @@ function PersonalInfo(props) {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      password: "",
-      email: "",
+      password: user.password,
+      email: user.email,
     },
     validationSchema: PersonalSchema,
     onSubmit: (values) => {
@@ -53,7 +53,7 @@ function PersonalInfo(props) {
             defaultValue={user.email}
             onChange={formik.handleChange}
             value={formik.values.eamil}
-            error={Boolean(formik.touched.email && formik.errors.email)}
+            error={Boolean(formik.errors.email)}
             helperText={formik.touched.email && formik.errors.email}
           />
         </Grid>

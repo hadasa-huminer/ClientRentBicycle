@@ -17,17 +17,28 @@ import CreditCard from "./CreditCard";
 import Home from "../../Components/HomePage";
 import Http from "../../axios";
 import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/action/userAction";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const steps = ["Personal Information", "Payment details"];
 function GetStepContent({ step }) {
+  const dispatch = useDispatch();
 
   // const GlobalState = (state) => {
   //   setClientData({ ...state, clientData });
   //   console.log(clientData);
- 
 
+  const save = (values) => {
+    debugger
+    dispatch(
+      setUser({
+        password: values.password,
+        email: values.email,
+        dateOfBirth: values.dob,
+      })
+    );
+  }
   switch (step) {
     case 0:
       return <PersonalInfo />;
@@ -45,8 +56,11 @@ const theme = createTheme();
 export default function Checkout() {
 
   const [activeStep, setActiveStep] = React.useState(0);
-  const navigate=useNavigate();
+  const [enable, setEnable] = React.useState(false);
+  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
+
+
   if (activeStep === steps.length) {
     // const pass = clientData.password;
     // const mail = clientData.email;
@@ -56,10 +70,16 @@ export default function Checkout() {
         navigate("/HomePage");
 
       })
-      .catch((err) => {console.log(err)
+      .catch((err) => {
+        console.log(err)
       });
-    }
+  }
   const handleNext = () => {
+    if (activeStep == 0) {
+      if (user.email != "" && user.password != "")
+        setEnable(true)
+
+    }
     setActiveStep(activeStep + 1);
   };
 
@@ -119,13 +139,15 @@ export default function Checkout() {
                       Back
                     </Button>
                   )}
-                  <Button
+                  {(activeStep==0&&user.email!=""&&user.password!="")||(activeStep==1&&user.validity!=""&&user.cvv!=""&&user.num_of_credit!="")  ? <Button
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 3, ml: 1 }}
+                    
                   >
                     {activeStep === steps.length - 1 ? "Register" : "Next"}
-                  </Button>
+                  </Button>:''
+            }
                 </Box>
               </React.Fragment>
             )}

@@ -1,7 +1,13 @@
 import { actionTypes } from '../action/actionTypes';
 
 const initnalState = {
-    user: {}
+    user: {
+        email:"",
+        password:"",
+        num_of_credit:"",
+        cvv:"",
+        validity:""
+    }
 }
 export const userReducer = (state = initnalState, action) => {
     if (typeof state === undefined) {
