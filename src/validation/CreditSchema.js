@@ -13,10 +13,11 @@ const CreditSchema = Yup.object().shape({
     .required("Required")
     .min(3, "Too short")
     .max(3, "Too short"),
+
   // CardNumber: Yup.string()
-  //     .test('test-number',
-  //         'Credit Card number is invalid',
-  //         value => valid.number(value).isValid)
-  //     .required('Required')
+  //   .test('test-number',
+  //     'Credit Card number is invalid',
+  //     value => valid.number(value).isValid)
+  //   .required('Required')
 });
 export default CreditSchema;

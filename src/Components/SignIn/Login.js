@@ -18,7 +18,7 @@ import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/action/userAction";
 import LoginSchema from "../../validation/LoginSchema";
-import axios from 'axios'
+
 
 const theme = createTheme();
 
@@ -39,14 +39,13 @@ const Login = () => {
           email: values.email,
           password: values.password,
         },
-      })
-        .then((res) => {
+      }).then((res) => {
           if (res.data === "משתמש לא קיים") {
             console.log(res);
             navigate("/DesignRegister");
           } else {
             console.log("ok", res);
-            navigate("/HomePage");
+            navigate("/MyContainer");
           }
         })
         .catch((err) => {console.log(err)});
