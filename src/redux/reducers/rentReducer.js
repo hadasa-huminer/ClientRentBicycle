@@ -2,9 +2,9 @@ import { actionTypes } from '../action/actionTypes';
 
 const initnalState = {
     rent: {
-       id:"",
+       bicycle_Id:"",
        start_time:"",
-       end_time:""
+        end_time:""
     }
 }
 export const rentReducer = (state = initnalState, action) => {

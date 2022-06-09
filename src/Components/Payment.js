@@ -5,21 +5,24 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 const Payment = () => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  Http.get("/bicycle", {
+  const cost = 0;
+  Http.put("/bicycle/updateBicycleStatus", {
     params: {
-      id: rent.bicycle_Id.id,
+      id: rent.bicycle_Id
     },
   })
     .then((res) => {
       console.log(res);
-      dispatch(sentRent({stratTime: res.stratTime,endTime = res.endTime}));
     })
     .catch((err) => {
       console.log(err);
     });
-  cost = (rent.endTime - rent.stratTime) * 30;
+  cost = (rent.end_time - rent.start_time) * 30;
+  //התחברות למערכת גביה.
+  //-שליפה מרידקס עם נתוני הכטירס אשראי
+  swal("Thank you", "bi!", "success");
   return;
 };
 

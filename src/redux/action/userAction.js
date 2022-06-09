@@ -6,7 +6,7 @@ export const setUser = (user) => {
         user:user
     }
 }
-export const seRent = (rent) => {
+export const setRent = (rent) => {
     return {
         type:actionTypes.SET_USER,
         rent:rent

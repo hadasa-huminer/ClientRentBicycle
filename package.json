@@ -24,6 +24,7 @@
     "react-scripts": "5.0.1",
     "redux": "^4.2.0",
     "styled-components": "^5.3.5",
+    "sweetalert": "^2.1.2",
     "sweetalert2": "^11.4.14",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"
@@ -51,5 +52,18 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
+  "main": "index.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hadasa-huminer/ClientRentBicycle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hadasa-huminer/ClientRentBicycle/issues"
+  },
+  "homepage": "https://github.com/hadasa-huminer/ClientRentBicycle#readme"
 }

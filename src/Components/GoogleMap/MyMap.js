@@ -1,26 +1,41 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Http from "../../axios";
-import { Map, Marker, GoogleApiWrapper } from 'google-maps-react';
-export function MapContainer(props){
+import { Map, GoogleApiWrapper,Marker } from 'google-maps-react';
+import swal from 'sweetalert';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import {setRent} from '../../redux/action/userAction';
+export function MapContainer(props) {
   const [locations, setLocations] = useState([]);
-    const [currentLocation, setCurrentLocation] = useState(null); 
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    useEffect(()=>{
-      Http.get("/client", {})
+  useEffect(() => {
+    Http.get("/client")
       .then((res) => {
         locations = res.data
       })
       .catch((err) => { console.log(err) });
-      navigator.geolocation.getCurrentPosition((position) => {
-        let obj = {lat: position.coords.latitude, lng: position.coords.longitude};
-        setCurrentLocation(obj);
-      });
-    },[]);
+    navigator.geolocation.getCurrentPosition((position) => {
+      let obj = { lat: position.coords.latitude, lng: position.coords.longitude };
+      setCurrentLocation(obj);
+    });
+  }, []);
+
+  const onClickMarker=(item)=>{
+    dispatch(setRent({ bicycle_Id: item.id}));
+    swal("You want to rent this bicycle?")
+    .then(() => {
+      navigate("/Renting");
+    });
+  }
+
   const mapStyles = {
-  width: '100%',
-  height: '100%',
-};
-const iconBicycle =
+    width: '100%',
+    height: '100%',
+  };
+  const iconBicycle =
     "https://developers.google.com/maps/documentation/javascript/examples/full/images/";
   return (
     currentLocation &&
@@ -30,10 +45,10 @@ const iconBicycle =
       style={mapStyles}
       initialCenter={{ lat: currentLocation.lat, lng: currentLocation.lng }}
     >
+      <Marker position={{lat:32.084932,lng:34.835226}} onClick ={onClickMarker}/>
       {locations.map((item) => (
-          <Marker position={{ lat: item.lat, lng: item.lng }} />
-        ))}
-      {/* onClick={onClickMarker} onMouseover = {distance} */}
+        <Marker position={{ lat: item.lat, lng: item.lng }} onClick={onClickMarker(item)}/>
+      ))}
     </Map>
   );
 }

@@ -2,16 +2,18 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import  {setRent}  from "../redux/action/userAction";
+import Http from "../axios";
 
 const Renting = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const rent = useSelector((state) => state.rent);
-  const cost = 0;
+  //התחברות לחברת גביה
   Http.put("/bicycle/updateBicycleStatus", {
     params: {
-      id: rent.bicycle_Id.id,
+      id: rent.bicycle_Id
     },
   })
     .then((res) => {
@@ -20,12 +22,16 @@ const Renting = () => {
     .catch((err) => {
       console.log(err);
     });
-  return(
-  <>
-    <h1> RB bless you to </h1>
-    <button onClick = {()=>{navigate("/RoleOfCompany")}}>to the role of the company</button>
-    <button onClick={()=>{navigate("/Payment")}}>to end the rent:)</button>
-  </>);
+  dispatch(setRent({ start_time: new Date().now().getHour() }));
+  return (
+    <>
+      <h1> RB bless you to </h1>
+      <button onClick={() => { navigate("/RoleOfCompany") }}>to the role of the company</button>
+      <button onClick={() => {
+        dispatch(setRent({ end_Time: new Date().now().getHour() }));
+        navigate("/Payment")
+      }}>to end the rent:)</button>
+    </>);
 };
 
 export default Renting;
